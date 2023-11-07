@@ -1,0 +1,196 @@
+Database Name:Tinting_Records
+
+
+-- Database: Tinting_Records
+
+-- DROP DATABASE IF EXISTS "Tinting_Records";
+
+CREATE DATABASE "Tinting_Records"
+    WITH
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'English_United Kingdom.1252'
+    LC_CTYPE = 'English_United Kingdom.1252'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1
+    IS_TEMPLATE = False;
+
+Table Name:Colourants
+
+-- Table: public.Colourants
+
+-- DROP TABLE IF EXISTS public."Colourants";
+
+CREATE TABLE IF NOT EXISTS public."Colourants"
+(
+    "Sno" integer NOT NULL DEFAULT nextval('"Colourants_Sno_seq"'::regclass),
+    "Request_Id" text COLLATE pg_catalog."default" NOT NULL,
+    "Status" integer NOT NULL,
+    "Created_On" timestamp with time zone NOT NULL,
+    "Dispensing_Machine" text COLLATE pg_catalog."default",
+    "Colourants" text COLLATE pg_catalog."default" NOT NULL,
+    "Batch_No" integer NOT NULL,
+    "Quantity" integer NOT NULL,
+    "User_Id" text COLLATE pg_catalog."default" NOT NULL,
+    "Date" text COLLATE pg_catalog."default" NOT NULL,
+    "MFG" text COLLATE pg_catalog."default",
+    CONSTRAINT "Colourants_pkey" PRIMARY KEY ("Sno")
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."Colourants"
+    OWNER to postgres;
+
+
+Table Name:Login_Page
+
+
+-- Table: public.Login_Page
+
+-- DROP TABLE IF EXISTS public."Login_Page";
+
+CREATE TABLE IF NOT EXISTS public."Login_Page"
+(
+    "Password" text COLLATE pg_catalog."default" NOT NULL,
+    "User_Id" text COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT "Master_page_pkey" PRIMARY KEY ("User_Id")
+        INCLUDE("User_Id")
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."Login_Page"
+    OWNER to postgres;
+
+Table Name:Mapping_Master
+
+-- Table: public.Mapping_Master
+
+-- DROP TABLE IF EXISTS public."Mapping_Master";
+
+CREATE TABLE IF NOT EXISTS public."Mapping_Master"
+(
+    "Sno" integer NOT NULL DEFAULT nextval('"Mapping_Master_Sno_seq"'::regclass),
+    "User_Name" text COLLATE pg_catalog."default" NOT NULL,
+    "User_Id" text COLLATE pg_catalog."default" NOT NULL,
+    "Depot_Name" text COLLATE pg_catalog."default" NOT NULL,
+    "Admin" boolean NOT NULL,
+    "Status" integer NOT NULL,
+    CONSTRAINT "Mapping_Master_pkey" PRIMARY KEY ("Sno")
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."Mapping_Master"
+    OWNER to postgres;
+
+Table Name:Observation
+
+-- Table: public.Observation
+
+-- DROP TABLE IF EXISTS public."Observation";
+
+CREATE TABLE IF NOT EXISTS public."Observation"
+(
+    "Request_Id" text COLLATE pg_catalog."default" NOT NULL,
+    "Base_Tinted_As_Per_Report_In_Lit" integer NOT NULL,
+    "Base_Tinted_As_Per_History_File_In_Lit" integer NOT NULL,
+    "Colorant_Poured_In_Cannisters_In_Lit" integer NOT NULL,
+    "Colorant_Consumed_In_Lit" integer NOT NULL,
+    "Remarks" text COLLATE pg_catalog."default",
+    "Branding_For_Dispensing_Machine" text COLLATE pg_catalog."default" NOT NULL,
+    "Branding_For_Gyroshaker_Machine" text COLLATE pg_catalog."default" NOT NULL,
+    "Status" integer NOT NULL,
+    "Depot" text COLLATE pg_catalog."default" NOT NULL,
+    "Created_On" timestamp with time zone NOT NULL,
+    "User_Id" text COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT "Observation_pkey" PRIMARY KEY ("Request_Id")
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."Observation"
+    OWNER to postgres;
+
+Table Name:Request_Id_Generator_Tinting
+
+-- Table: public.Request_Id_Generator_Tinting
+
+-- DROP TABLE IF EXISTS public."Request_Id_Generator_Tinting";
+
+CREATE TABLE IF NOT EXISTS public."Request_Id_Generator_Tinting"
+(
+    "Sno" integer NOT NULL DEFAULT nextval('"Request_Id_Generator_Sno_seq"'::regclass),
+    "Tinting_Request_Id_Date" timestamp with time zone NOT NULL,
+    "Tinting_Request_Id_Number" integer NOT NULL,
+    CONSTRAINT "Request_Id_Generator_pkey" PRIMARY KEY ("Sno")
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."Request_Id_Generator_Tinting"
+    OWNER to postgres;
+
+Table Name:Request_Id_Generator_Observation
+
+-- Table: public.Request_Id_Generator_Observation
+
+-- DROP TABLE IF EXISTS public."Request_Id_Generator_Observation";
+
+CREATE TABLE IF NOT EXISTS public."Request_Id_Generator_Observation"
+(
+    "Sno" integer NOT NULL DEFAULT nextval('"Request_Id_Generator_Observation_Sno_seq"'::regclass),
+    "Observation_Request_Id_Date" timestamp with time zone NOT NULL,
+    "Observation_Request_Id_Number" integer NOT NULL,
+    CONSTRAINT "Request_Id_Generator_Observation_pkey" PRIMARY KEY ("Sno")
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."Request_Id_Generator_Observation"
+    OWNER to postgres;
+
+Table Name:Tintings
+
+-- Table: public.Tintings
+
+-- DROP TABLE IF EXISTS public."Tintings";
+
+CREATE TABLE IF NOT EXISTS public."Tintings"
+(
+    "Request_Id" text COLLATE pg_catalog."default" NOT NULL,
+    "Status" integer NOT NULL,
+    "Created_On" timestamp with time zone NOT NULL,
+    "Name_Of_The_Project" text COLLATE pg_catalog."default" NOT NULL,
+    "Name_Of_Sales_Person" text COLLATE pg_catalog."default",
+    "Fandeck" text COLLATE pg_catalog."default" NOT NULL,
+    "Shade_Code" text COLLATE pg_catalog."default" NOT NULL,
+    "Colour_Shade" text COLLATE pg_catalog."default",
+    "Shade_Name" text COLLATE pg_catalog."default" NOT NULL,
+    "Product" text COLLATE pg_catalog."default" NOT NULL,
+    "Base" text COLLATE pg_catalog."default" NOT NULL,
+    "Base_Batch_No" text COLLATE pg_catalog."default" NOT NULL,
+    "Formulation_For_1_Litre_Pack_Size" text COLLATE pg_catalog."default" NOT NULL,
+    "Quantity_Tinted_In_Litres" integer NOT NULL,
+    "Reference" text COLLATE pg_catalog."default" NOT NULL,
+    "For_Project_Or_Retail" text COLLATE pg_catalog."default",
+    "For_S&M_Project_Or_Retail_Or_BUKA" text COLLATE pg_catalog."default",
+    "Shade_Patch" text COLLATE pg_catalog."default" NOT NULL,
+    "Other_Observations" text COLLATE pg_catalog."default" NOT NULL,
+    "Dispensing_Machine" text COLLATE pg_catalog."default",
+    "Tinting_Invoice" text COLLATE pg_catalog."default",
+    "Original_Invoice" text COLLATE pg_catalog."default",
+    "Shade_Match_Confirmation" boolean NOT NULL,
+    "User_Id" text COLLATE pg_catalog."default" NOT NULL,
+    "Date" text COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT "Tintings_pkey" PRIMARY KEY ("Request_Id")
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."Tintings"
+    OWNER to postgres;
+
+
+
