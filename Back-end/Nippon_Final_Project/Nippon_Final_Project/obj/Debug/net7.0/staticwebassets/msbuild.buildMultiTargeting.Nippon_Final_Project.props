@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Nippon_Final_Project.props" />
+</Project>
